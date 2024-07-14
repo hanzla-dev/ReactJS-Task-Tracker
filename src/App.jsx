@@ -1,33 +1,33 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import AddTask from './components/AddTask'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [taskList, setTaskList] = useState([])
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <h1 className='text-3xl font-bold underline py-4 pl-6'>Task Tracker</h1>
+      <div className='flex flex-row items-center'>
+        <p className='text-2xl pl-6 pr-6'> Click </p>
+        <AddTask taskList={taskList} setTaskList={setTaskList} />
+        <p className='text-2xl pl-6 pr-6'>to add a task</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className='flex flex-col '>
+      <div className='flex flex-row items-center'>
+        <h2 className='p-4 m-3 font-bold text-lg'>Name</h2>
+        <h2 className='p-4 m-3 font-bold text-lg'>task</h2>
+        <h2 className='p-4 m-3 font-bold text-lg'>description</h2>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {taskList.map((task, index) => (
+        <div key={index} className='flex flex-row items-center'>
+          <p className='p-5 text-2xl pl-6 pr-6 border border-cyan-500'>{task.projectName}</p>
+          <p className='p-5 text-2xl pl-6 pr-6 border border-cyan-500'>{task.taskName}</p>
+          <p className='p-5 text-2xl pl-6 pr-6 border border-cyan-500'>{task.taskDescription}</p>
+        </div>
+      ))}
+      </div>
     </>
   )
 }
