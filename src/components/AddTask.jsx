@@ -11,13 +11,16 @@ const AddTask = ({ taskList, setTaskList }) => {
     }, [taskList]);
 
     const handleAdd = (e) => {
-        e.preventDefault();
+        e.preventDefault();       
+        if(projectName == "" || taskName == "" || taskDescription == ""){
+            document.getElementById("error").classList.remove("hidden");
+            return;
+        }       
         setTaskList(taskList => [
             ...taskList, 
             { projectName, taskName, taskDescription }
         ]);
         setAddModel(false);
-        console.log(taskList);
         setProjectName("");
         setTaskName("");
         setTaskDescription("");
@@ -80,7 +83,8 @@ const AddTask = ({ taskList, setTaskList }) => {
                                         required
                                     ></textarea>
                                 </div>
-                            </form>
+                                <div id="error" className="hidden"> <span className="text-red-700 text-2xl w-auto">Fill out all fields!</span></div>
+                            </form> 
                             <div>
                                 <button
                                     onClick={handleAdd}

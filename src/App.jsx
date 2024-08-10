@@ -21,11 +21,11 @@ function App() {
         <h2 className='p-4 m-3 font-bold text-lg'>description</h2>
       </div>
       {taskList.map((task, index) => (
-        <div key={index} className='flex flex-row items-center'>
-          <p className='p-5 text-2xl pl-6 pr-6 border border-cyan-500'>{task.projectName}</p>
-          <p className='p-5 text-2xl pl-6 pr-6 border border-cyan-500'>{task.taskName}</p>
-          <p className='p-5 text-2xl pl-6 pr-6 border border-cyan-500'>{task.taskDescription}</p>
-        </div>
+        <>
+        <p  key={index}>{task.projectName}</p>
+        <p key={index}>{task.taskDescription}</p>
+        <p key={index}>{task.taskName}</p>
+        </>
       ))}
       </div>
     </>
