@@ -1,21 +1,33 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const EditTask = ({ taskList, setTaskList, index, task }) => {
     const [editModel, setEditModel] = useState(false);
-    const [projectName, setProjectName] = useState(task.projectName);
-    const [taskName, setTaskName] = useState(task.taskName);
-    const [taskDescription, setTaskDescription] = useState(task.taskDescription);
+    const [projectName, setProjectName] = useState("");
+    const [taskName, setTaskName] = useState("");
+    const [taskDescription, setTaskDescription] = useState("");
+    useEffect(() => {
+        setProjectName(task.projectName);
+        setTaskName(task.taskName);
+        setTaskDescription(task.taskDescription);
+    }, [])
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        if (projectName == "" || taskName == "" || taskDescription == "") {
+        if (projectName == "" || taskName == "") {
             document.getElementById("error").classList.remove("hidden");
             return;
         }
 
         let taskIndex = taskList.indexOf(task);
-        taskList.splice(taskIndex, 1);
-
+        taskList.splice(taskIndex, 1, {
+            projectName: projectName,
+            taskName: taskName,
+            taskDescription: taskDescription,
+            timeStamp: task.timeStamp,
+            duration: task.duration
+        });
+        localStorage.setItem("tempList", JSON.stringify(taskList));
+        window.location.reload();
         setTaskList(taskList => [
             ...taskList,
             { projectName, taskName, taskDescription }
@@ -32,14 +44,14 @@ const EditTask = ({ taskList, setTaskList, index, task }) => {
                         <div className="max-w-lg bg-white w-9/12 border rounded-lg shadow-md relative flex flex-col">
                             <div className="flex flex-row justify-between p-5 border-b border-slate-300">
                                 <h3 className="bg-white text-3xl font-semibold">Edit Task</h3>
-                                <button onClick={() => setEditModel(false)} className=" block px-1 text-gray-400 float-right text-3xl">X</button>
+                                {/* <button onClick={() => setEditModel(false)} className=" block px-1 text-gray-400 float-right text-3xl">X</button> */}
                             </div>
                             <form className="p-6">
                                 <div>
                                     <label
                                         className="tracking-wide text-gray-400 uppercase text-sm font-semibold mb-2 block" htmlFor="project-name"
                                     >
-                                        Project Name
+                                        Project Name *
                                     </label>
                                     <input
                                         value={projectName}
@@ -55,7 +67,7 @@ const EditTask = ({ taskList, setTaskList, index, task }) => {
                                     <label
                                         className="tracking-wide text-gray-400 uppercase text-sm font-semibold mb-2 block" htmlFor="task-name"
                                     >
-                                        Task Name
+                                        Task Name *
                                     </label>
                                     <input
                                         value={taskName}
@@ -80,7 +92,7 @@ const EditTask = ({ taskList, setTaskList, index, task }) => {
                                         required
                                     ></textarea>
                                 </div>
-                                <div id="error" className="hidden"> <span className="text-red-700 text-2xl w-auto">Fill out all fields!</span></div>
+                                <div id="error" className="hidden"> <center> <span className="text-red-700 text-2xl w-auto">Fill out mandatory fields!</span></center></div>
                             </form>
                             <div>
                                 <center>

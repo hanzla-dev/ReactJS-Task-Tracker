@@ -12,14 +12,17 @@ const AddTask = ({ taskList, setTaskList }) => {
 
     const handleAdd = (e) => {
         e.preventDefault();
-        if (projectName == "" || taskName == "" || taskDescription == "") {
+        if (projectName == "" || taskName == "") {
             document.getElementById("error").classList.remove("hidden");
             return;
         }
-        setTaskList(taskList => [
-            ...taskList,
-            { projectName, taskName, taskDescription }
-        ]);
+        let timeStamp = new Date();
+        let tempList = taskList;
+        tempList.push({
+            projectName,taskName, taskDescription,timeStamp:timeStamp, duration: 0
+        })
+localStorage.setItem("tempList", JSON.stringify(taskList))
+       window.location.reload();
         setAddModel(false);
         setProjectName("");
         setTaskName("");
@@ -42,7 +45,7 @@ const AddTask = ({ taskList, setTaskList }) => {
                                     <label
                                         className="tracking-wide text-gray-400 uppercase text-sm font-semibold mb-2 block" htmlFor="project-name"
                                     >
-                                        Project Name
+                                        Project Name *
                                     </label>
                                     <input
                                         value={projectName}
@@ -58,7 +61,7 @@ const AddTask = ({ taskList, setTaskList }) => {
                                     <label
                                         className="tracking-wide text-gray-400 uppercase text-sm font-semibold mb-2 block" htmlFor="task-name"
                                     >
-                                        Task Name
+                                        Task Name *
                                     </label>
                                     <input
                                         value={taskName}
@@ -83,7 +86,7 @@ const AddTask = ({ taskList, setTaskList }) => {
                                         required
                                     ></textarea>
                                 </div>
-                                <div id="error" className="hidden"> <span className="text-red-700 text-2xl w-auto">Fill out all fields!</span></div>
+                                <div id="error" className="hidden"> <center><span className="text-red-700 text-2xl w-auto">Fill out mandatory fields!</span></center></div>
                             </form>
                             <div className="">
                                 <center>   
